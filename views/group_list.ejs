@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="stylesheets/index.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/user.css" />
+    <script src="/javascripts/jquery-3.3.1.min.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/bootstrap-paginator.js"></script>
+    <script>
+        $(function () {
+            /**
+             * 部门管理页 批量删除全选按钮
+             */
+            $(".check_all").on("click",function () {
+                if($(this).is(':checked')){
+                    $("table.user").find("input.checkbox").attr("checked",true);
+                }else {
+                    $("table.user").find("input.checkbox").attr("checked",false);
+                }
+            });
+
+            /**
+             * 分页插件加载部门管理页的分页按钮
+             */
+            //获取分页容器
+            var element = $(".pagination");
+            //配置分页插件的页码参数
+            var options = {
+                //必写项：bootstrap的版本要求，即便没有引入bootstrap
+                bootstrapMajorVersion:3,
+                //设置当前页 服务器端动态获取
+                currentPage:$("#pageNumber").text() ,
+                //设置分页页码的最大显示数
+                numberOfPages: 5,
+                //设置总页数 服务器端动态获取
+                totalPages:$("#pageTotal").text(),
+                itemTexts:function (type, page, current) {
+                    switch (type) {
+                        case "first":
+                            return "首页";
+                        case "prev":
+                            return "上一页";
+                        case "next":
+                            return "下一页";
+                        case "last":
+                            return "末页";
+                        case "page":
+                            return page;
+                    }
+                },
+                //点击事件
+                onPageClicked: function (event, originalEvent, type, page) {
+                    var curPage=Number(page);
+                    window.location.href="/groupList?page="+curPage;
+                }
+            }
+            //分页容器调用分页插件生成分页页码
+            element.bootstrapPaginator(options);
+
+            /**
+             * 部门信息单删按钮点击处理
+             */
+            $(".user_del").on("click",function () {
+                //获取该数据行的ID
+                var groupId=$(this).parents("tr").attr("title");
+                //获取需要删除的部门
+                var group=$(this).parents("tr");
+
+                if(confirm('您确定要删除该信息吗?')){
+                    //将该信息的信息ID提交至删除路由
+                    $.post("/delGroup",{groupId:groupId},function (data, status, xhr) {
+                        if(status=="error"){
+                            alert("删除异常");
+                        }else if(status=="success"){
+                            //获取后端的删除结果
+                            alert("删除成功");
+                            //在当前页删除需要单删的行
+                            group.remove();
+                        }
+                    });
+                }
+            });
+
+            /**
+             * 部门管理页 批量删除的删除按钮的点击处理
+             */
+            $("#batchdel").on("click",function () {
+                //获取信息表下所有被选中的复选框
+                var inputCheckbox = $("table.user").find("input:checkbox:checked");
+                //创建数组存储所有被选中的复选框的行Id
+                var groupId = new Array();
+                //创建数组存储所有需要批量删除的部门
+                var groups=new Array();
+
+                //如果有复选被选中
+                if (inputCheckbox.length > 0) {
+                    //遍历所有被选中的复选框
+                    inputCheckbox.each(function () {
+                        //将当前被选中的复选框所对应行的行Id添加至待删部门的部门Id数组
+                        groupId.push({groupId: $(this).parents("tr").attr("title")});
+                        //将当前被选中的复选框所对应行的行索引添加至待删部门的部门索引数组
+                        groups.push($(this).parents("tr")) ;
+                    });
+
+                    if(confirm("您确定要删除吗?")){
+                        //将需要删除的信息post提交至删除路由
+                        axios.post("/deleteAllGroups",{groupId:groupId})
+                            .then(res=>{
+                                alert(JSON.parse(res.data).result);
+                                //在当前的页面中动态删除已被后台删除的行
+                                //批量删除当前页面的所有部门信息
+                                deleteGroups(groups);
+                            })
+                            .catch(err=>{
+                                alert(JSON.parse(err.data).result);
+                            });
+                    }
+                }
+            });
+
+            //设置部门管理页所有部门信息的修改按钮的点击处理
+            $(".user_pwd").on("click",function () {
+                //将部门Id提交至部门信息的修改路由
+                window.location.href="/editgroup?groupId="+$(this).parents("tr").attr("title");
+            });
+
+            /**
+             * 批量删除当前页的部门信息
+             * @param groups 所有部门
+             */
+            function deleteGroups(groups) {
+                //遍历所有需要删除的部门
+                $(groups).each(function () {
+                    //将当前部门删除
+                    $(this).remove();
+                });
+            }
+        });
+    </script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%=title%></title>
+</head>
+<body>
+<div class="sys_contnt">
+    <div class="sys_content_left">
+        <ul>
+            <li class="sys_content_left_l1"><a href="/grouplist" >部门管理</a></li>
+            <li ><a id="useradd" href="/addgroup">部门添加</a></li>
+        </ul>
+    </div>
+    <div class="sys_content_right" >
+        <div class="sys_user">
+            <h1 class="fleft">部门管理</h1>
+            <form action="" method="">
+                <input type="submit" class="s_sub" value="搜 索"/>
+                <input type="text" class="search" value="请输入用户组名"/>
+            </form>
+            <table cellpadding="0" border="0" cellspacing="0" class="user clear">
+                <tr class="first">
+                    <td width="5%"></td>
+                    <td width="8%">部门名称</td>
+                    <td width="5%">部门权限</td>
+                    <td width="10%">操作</td>
+                </tr>
+                <%for(var i=0;i<groupList.length;i++){%>
+                    <%if(i%2==0){%>
+                        <tr title=<%=groupList[i].groupId%>>
+                        <td><input type="checkbox" class="checkbox" title=""/></td>
+                        <td width="5%"><%=groupList[i].groupName%></td>
+                        <td width="8%"><%=groupList[i].groupPower%></td>
+                        <td>
+                        <ul class="user_table_edit w84">
+                            <li><a  class="user_edit"  href="" ></a></li>
+                            <li><input type="button" class="user_pwd"></li>
+                            <li><input type="button" class="user_del" onclick=""></li>
+                        </ul>
+                        </td>
+                        </tr>
+                    <%}else{ %>
+                     <tr class="double" title=<%=groupList[i].groupId%>>
+                        <td><input type="checkbox" class="checkbox" title=""/></td>
+                        <td width="5%"><%=groupList[i].groupName%></td>
+                        <td width="8%"><%=groupList[i].groupPower%></td>
+                        <td>
+                        <ul class="user_table_edit w84">
+                            <li><a  class="user_edit"  href="" ></a></li>
+                            <li><input type="button" class="user_pwd"></li>
+                            <li><input type="button" class="user_del" ></li>
+                        </ul>
+                        </td>
+                    </tr>
+                    <%}%>
+                <%}%>
+            </table>
+
+            <div class="div_page2">
+                <span class="w5"><input type="checkbox" class="check_all" onchange=""/></span>
+                <span><a href="##" class="btn_del" id="batchdel">删 除</a></span>
+            </div>
+
+            <!--分页页码容器-->
+            <div class="pagesBtn">
+                <ul class="pagination">
+                </ul>
+            </div>
+
+            <!--
+                隐藏域
+                记录后台响应给客户端的当前页和总页
+                以便于分页插件的调用
+            -->
+            <div id="paginationParam" style="display: none">
+                <span id="pageNumber"><%=pageNumber%></span>
+                <span id="pageTotal"><%=pageTotal%></span>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="stylesheets/index.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/user.css" />
+    <script src="/javascripts/jquery-3.3.1.min.js"></script>
+    <script>
+        $(function () {
+            $("#menu li").on("click",function () {
+                $(this).addClass("sys_nav_hover").siblings().removeClass("sys_nav_hover");
+                $("#mainframe").attr("src",$(this).attr("title"));
+            });
+
+            $("#loginout").on("click",function () {
+                $.ajax({
+                    url:"/loginout",
+                    dataType:"json",
+                    type:"get",
+                    error:function (e) {
+                        alert(e);
+                    },
+                    success:function (data) {
+                         var data=eval('('+data+')');
+                         alert(data.msg);
+                         window.location.href="/";
+                    }
+                });
+            });
+        });
+
+
+    </script>
+
+    <title><%=title%></title>
+</head>
+<body>
+
+
+
+    <div class="sys_header">
+        <div class="logo"><img src="images/logo.png" /></div>
+        <div class="logo_text">欢迎系统管理员：&nbsp;<span><%=userName%></span>&nbsp;
+           <%=year%>年<%=month%>月<%=day%>日&nbsp;&nbsp;星期<%=week%></div>
+        <div class="sys_return">
+            <ul>
+                <li><a href="#"><img src="images/exit.png" /></a><a href="#" id="loginout">退出登录</a></li>
+                <li><a href="#"><img src="images/return.png" /></a><a href="#">返回主页</a></li>
+            </ul>
+        </div>
+        <div class="sys_nav">
+            <ul id="menu">
+                <li class="sys_nav_hover" title="/adduser"><a href="#">用户</a></li>
+                <li title="/addgroup"><a href="#">部门</a></li>
+                <li title="/addepart"><a href="##">机构</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="sys_top1">
+        <div class="sys_top2">首页&nbsp;-&nbsp;教务信息&nbsp;-&nbsp;标题</div>
+    </div>
+    <iframe src="/adduser" id="mainframe" width="100%" height="600px" scrolling="no"></iframe>
+</body>
+
+</html>

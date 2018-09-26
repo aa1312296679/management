@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="stylesheets/index.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/user.css" />
+    <title><%=title%></title>
+</head>
+<body>
+<div class="sys_contnt">
+    <div class="sys_content_left">
+        <ul>
+            <li><a href="/usermanager" id="groupmanager" target="_self">用户管理</a></li>
+            <li class="sys_content_left_l1"><a href="/adduser" id="useradd">用户添加</a></li>
+        </ul>
+    </div>
+    <div class="sys_content_right" >
+        <div class="user_add">
+            <h1>添加用户</h1>
+            <div class="con">
+                <form action="/updateuser" method="post">
+                    <table cellpadding="0" border="0" cellspacing="0" class="d">
+                        <tr>
+                            <td width="20%" class="td_1">用户名：</td>
+                            <td width="80%"><input type="text" name="username" class="text" id="username"/></td>
+                        </tr>
+                        <tr>
+                            <td width="20%" class="td_1">工<img src="images/word.png" alt=""/>号：</td>
+                            <td width="80%"><input type="text" name="usercode" class="text" id="usercode"/></td>
+                        </tr>
+                        <tr>
+                            <td class="td_1">用户组：</td>
+                            <td>
+                                <div id="s1" class="select">
+                                    <span>搜索</span>
+                                    <ul>
+
+                                    </ul>
+                                    <input type="hidden" name="usergroup" id="usergroup"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_1">机<img src="images/word.png" alt=""/>构：</td>
+                            <td>
+                                <div id="s2" class="select">
+                                    <span>搜索</span>
+                                    <ul>
+                                    </ul>
+                                    <input type="hidden" name="userdepart" id="userdepart"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_1">密<img src="images/word.png" alt=""/>码：</td>
+                            <td><input type="password" name="pwd" class="text"/>
+                                <input name="button" type="submit" class="passbut" id="button" value="随机密码" /></td>
+                        </tr>
+                        <tr class="tr_5">
+                            <td class="td_1"><span class="td_t">备<img src="images/word.png" alt=""/>注：</span></td>
+                            <td class="texta"><textarea rows="8" cols="34" name="description" id="description"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="td_btn"><input type="submit" class="btn_sub" value="提 交"/></td>
+                        </tr>
+                    </table>
+                    <input  value="<%=user[0].Auto %>" name="userId"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,383 @@
+﻿@charset "utf-8";
+*
+{
+   margin:0px auto;
+   padding:0px;
+   font-size:12px;
+   list-style:none;
+}
+img
+{
+   border:0px;
+}
+a
+{
+   font-size:12px;
+   color:#333333;
+   text-decoration:none;
+}
+a:hover
+{
+   text-decoration:underline;
+}
+body
+{
+    background-color:#FFFFFF;
+}
+
+.sys_header
+{
+	width:auto;
+	min-width:1000px;
+	height:113px;
+	background-image:url(../images/sys_header.gif);
+	overflow:hidden
+	
+}
+.logo
+{
+    height:92px;
+	width:95px;
+	float:left;
+	margin-left:2%;
+	padding-top:10px;
+}
+.logo_text
+{
+    float:left;
+	width:330px;
+	height:72px;
+	color:#FFFFFF;
+	font-weight:bold;
+	line-height:82px;
+	margin-top:20px;
+}
+.logo_text span
+{
+   color:#FFFF00;
+}
+.sys_header_right
+{
+   width:480px;
+   height:92px;
+   float:right;
+}
+.sys_return
+{
+    width:18%;
+	float:right;
+	height:52px;
+	margin-right:1%;
+	
+}
+.sys_return img
+{
+   margin-left:15px;
+   margin-right:5px;
+   border:none;
+}
+.sys_return ul li
+{
+    float:left;
+	height:50px;
+	margin-top:20px;
+	margin-right:1%;
+	line-height:25px;
+}
+.sys_return a
+{
+     color:#FFFFFF;
+	 float:left;
+}
+.sys_nav
+{
+    width:36%;
+	float:right;
+	height:32px;
+	margin-top:80px;
+	
+	
+}
+.sys_nav .sys_nav_hover a
+{
+   background-image:url(../images/nav_hover.png);
+   color:#3C7978;
+}
+.sys_nav li
+{
+	line-height:35px;
+	text-align:center;
+	float:left;
+}
+.sys_nav a
+{
+    font-weight:bold;
+	color:#696B6A;
+	font-size:14px;
+	float:left;
+	width:83px;
+	height:33px;
+	margin-right:5px;
+	background-image:url(../images/nav_bg.png);
+}
+.sys_nav a:hover
+{
+    background-image:url(../images/nav_hover.png);
+	color:#3C7978;
+	text-decoration:none;
+}
+.sys_top1
+{
+	background-color:#F7F7F7;
+	width:auto;
+	height:35px;
+	color:#696969;
+	line-height:35px;
+	font-weight:bold;
+min-width:1000px;
+}
+.sys_top2
+{
+	padding-left:16%;
+}
+
+.sys_content
+{
+    width:auto; 
+	background-color:#DFE9E7;
+	min-width:1000px;
+}
+.sys_content_left
+{
+   width:15%;   
+   float:left;
+   background-image:url(../images/share_shadow.gif);
+   background-position:right;
+  
+}
+
+
+.sys_content_left_li
+{
+    height:35px;
+    text-align:center;
+    line-height:40px;
+    
+	background-image:url(../images/sys_left_li.gif);
+	background-position:right;
+	background-color:#DFE9E8;
+}
+.sys_content_left li
+{
+   height:41px;
+   text-align:center;
+   line-height:41px;
+   *margin-top:-3px;
+   background-image:url(../images/sys_left_li.gif);
+   background-position:right;
+   background-color:#DFE9E8;
+}
+.sys_content_left li a
+{
+   font-weight:bold;
+   height:41px;
+   width:100%;
+   float:left;
+   background-image:url(../images/sys_tri1.png);
+   background-repeat:no-repeat;
+   background-position:23% center;
+}
+.sys_content_left li a:hover
+{
+   color:#FFFFFF;
+   text-decoration:none;
+   background-image:url(../images/sys_tri.png);
+}
+.sys_content_left li:hover
+{
+    background-color:#64ADA4;
+	background-image:url(../images/sys_left_li1.gif);
+	background-position:right;
+	background-color:#64ADA4;
+}
+.sys_content_left_hover
+{
+    background-color:#64ADA4;
+	background-image:url(../images/sys_tri.png);
+    background-repeat:no-repeat;
+    background-position:23% center;
+}
+.sys_content_left_hover a
+{
+	color:#FFFFFF;
+}
+.sys_content_left .sys_content_left_l1{
+     background-image:url(../images/sys_left_li1.gif);
+	 background-position:right;
+     background-color:#64ADA4;
+}
+.sys_content_left .sys_content_left_l1 a
+{
+     color:#FFFFFF;
+	 float:left;
+	 background-image:url(../images/sys_tri.png);
+     background-repeat:no-repeat;
+     background-position:23% center;
+}
+.sys_content_right
+{
+     width:83%;
+	 *width:82.9%;
+	 float:left;
+     padding-left:1%;
+	 padding-right:1%;
+	 background-color:#DFE9E7;
+
+}
+.sys_footer
+{
+    height:69px;
+	text-align:center;
+	color:#FFFFFF;
+	clear:both;
+	line-height:69px;
+	width:auto;
+min-width:1000px;
+	font-family:Arial, Helvetica, sans-serif;
+	background-color:#000000;
+}
+/*修改样式*/
+.sys_content_left1
+{
+   width:27%;
+   min-height:510px;
+   height:auto;
+   float:left;
+   padding-bottom:20px;
+   padding-right:2%;
+   overflow:hidden;
+   background-color:#DFE9E7;
+}
+.sys_content_left2
+{
+   width:95%;
+   height:492px;
+   *height:514px;
+   
+   overflow:hidden;
+   margin-left:5%;
+   padding:0 5px;
+   border-bottom:3px solid #88bfbc;
+   background:url(../images/tablehead.gif) top repeat-x;
+   background-color:#FFFFFF;
+
+}
+.sys_content_left1 h4
+{
+    font-size:12px;
+	padding-top:8px;
+	font-weight:bold;
+	color:#FFFFFF;
+	padding-left:10px;
+	padding-bottom:10px;
+	margin-bottom:10px;
+	
+	
+	
+}
+.sys_content_right1
+{
+     width:70%;
+	 float:left;
+	 min-height:492px;
+	 padding-right:1%;
+	 *padding-right:1.9%;
+	 padding-bottom:20px;
+	 overflow:hidden;
+	 background-color:#DFE9E7;
+}
+.sys_left_btn
+{
+   width:131px;
+   height:35px;
+   margin-top:10px;
+   color:#FFFFFF;
+   font-weight:bold;
+   background-image:url(../images/sys_left_btn.png);
+   border:0px;
+   margin-left:20%;
+   *margin-left:8%;
+   cursor:pointer;
+}
+.sys_left_btn:hover
+{
+	background-image: url(../images/sys_left_btn_hover.png);
+}
+.sys_top3
+{
+	background-color:#DFE9E8;
+	width:auto;
+	height:35px;
+	
+	padding-left:3%;
+	line-height:35px;
+	
+}
+.sys_top1 h3
+{
+    padding-left:3%;
+	
+}
+.sys_top3 h1
+{
+   font-size:20px;
+	font-family:"微软雅黑";
+	font-weight:400;
+	height:35px;
+	line-height:35px;
+	
+}
+
+iframe{
+    border:0px;
+}
+
+/**
+bootstrap分页控件的自定义样式
+ */
+.pagesBtn{
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+    clear: both;
+    border: 1px solid red;
+}
+
+.pagination{
+    display: inline-block;
+    padding-left: 0;
+    border-radius: 4px;
+}
+
+.pagination>li{
+    display: inline;
+}
+
+.pagination>li>a{
+float: left;
+padding:6px 12px;
+margin-left: -1px;
+line-height: 1.42857143;
+color: #696B6A;
+font-weight: bold;
+text-decoration: none;
+background-image: url("./../images/tablehead.gif");
+margin-right: 4px;
+}
+
+.pagination>.active>a{
+color: #3C7978;
+font-weight: bold;
+background-image: url("./../images/nav_hover.png");
+}
+

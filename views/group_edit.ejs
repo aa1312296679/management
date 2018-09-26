@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="stylesheets/user.css" />
+<link rel="stylesheet" type="text/css" href="stylesheets/index.css" />
+<script src="/javascripts/jquery-3.3.1.min.js"></script>
+<script src="/javascripts/axios.min.js"></script>
+<script>
+    $(function () {
+        /***
+         *  部门信息的部门权限全选点击处理
+         */
+        $("#allgroup").on("click",function () {
+           if($(this).is(":checked")){
+               $(".list input").attr("checked",true);
+           }else {
+               $(".list input").attr("checked",false);
+           }
+       });
+
+        /**
+         *  部门信息的提交处理
+         */
+        $("#commitgroupinfor").on("click",function () {
+            //获取用户输入的部门名称
+            var groupName=$("#groupname").val();
+
+            //对部门名称非空判断
+            if(groupName==""){
+                alert("请输入部门名称");
+                return
+            }
+
+            //创建部门权限权限数组
+            var groupPower=new Array();
+            //获取所有被选中的权限并进行遍历
+            $(".list ul input:checked").each(function () {
+                groupPower.push($(this).attr("value"));
+            });
+
+            //将用户名和用户权限的多选结果post提交至服务器
+            axios.post('/addgroup',{groupname:groupName,grouppower:groupPower.join(",")})
+            //处理服务器的响应结果
+            .then(res=>{
+               let msg=JSON.parse(res.data);
+               alert("恭喜你 "+msg.result);
+            }).catch(err=>{
+                let msg=JSON.parse(err.data);
+                alert(msg.result);
+            });
+        });
+
+        //部门信息初始化
+        groupInit();
+    });
+
+    /**
+     * 部门信息初始化
+     */
+    function groupInit() {
+        //获取待修改部门的所有部门权限
+        var groupPower=$("#groupInfor").find("#groupPower").text();
+        //将所有部门权限分割为数组
+        groupPower=groupPower.split(",");
+        //遍历所有权限
+        $(groupPower).each(function () {
+            var groupPowerValue=this.trim();
+            $(".rep_box_bottom input[type='checkbox']").each(function () {
+                if($(this).attr("value")==groupPowerValue){
+                    $(this).attr("checked","checked");
+                }
+            });
+        });
+    }
+</script>
+<title>部门修改</title>
+</head>
+<body>
+   <!--隐藏该部门的所有部门信息-->
+   <div id="groupInfor" style="display: none">
+      <!--部门权限-->
+      <span id="groupPower"><%=groupInfor[0].groupPower%></span>
+      <!--部门Id-->
+      <span id="groupId"><%=groupInfor[0].groupId%></span>
+   </div>
+    <div class="sys_contnt">
+        <div class="sys_content_left">
+            <ul>
+                <li><a href="/grouplist" id="groupmanager">部门管理</a></li>
+                <li class="sys_content_left_l1"><a id="useradd" href="/addgroup">部门添加</a></li>
+            </ul>
+        </div>
+        <div class="sys_content_right" >
+            <h1>部门添加</h1>
+                <div class="con">
+                    <span class="title">部门名称：</span>
+                    <input class="text" id="groupname" type="text" value="<%=groupInfor[0].groupName%>"/>
+                    <div class="user_content">
+                        <span class="title">组权限：</span>
+                        <div class="rep_box">
+                            <span>
+                                <input id="allgroup" type="checkbox" value="" name="allgroup" title="100"/>全选</span>
+                            <div class="rep_box_bottom">
+                                <div class="list">
+                                    <h3>文章管理</h3>
+                                    <ul>
+                                        <li>
+                                            <input type="checkbox"  value="添加文章"/>添加文章</li>
+                                        <li>
+                                            <input type="checkbox" value="删除文章"/>删除文章</li>
+                                        <li>
+                                            <input type="checkbox" value="修改文章"/>修改文章</li>
+
+                                        </ul>
+                                </div>
+                                <div class="list">
+                                    <h3>用户管理</h3>
+                                    <ul>
+                                        <li>
+                                            <input type="checkbox" value="添加用户"/>添加用户</li>
+                                        <li>
+                                            <input type="checkbox" value="删除用户"/>删除用户</li>
+                                        <li>
+                                            <input type="checkbox" value="修改用户"/>修改用户</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn_sub btn_sub_center" value="提 交"  id="commitgroupinfor"/>
+                </div>
+        </div>
+    </div>
+</body>
+
+</html>

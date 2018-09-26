@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="stylesheets/index.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/user.css" />
+    <title>Document</title>
+    <script src="javascripts/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            /**
+             * 异步加载用户组信息
+             * */
+            $.get("/allgrouplist",function(data,err){
+                var result=eval('('+data+')');
+                for(var i = 0; i < result.groupList.length; i++){
+                     var option = $("<option class='groupOption' value="+ result.groupList[i].groupId +">"+ result.groupList[i].groupName +"</option>");
+                    $("#s1").append(option);
+                }
+            });
+
+            /**
+             * 异步加载机构信息
+             * */
+            $.get("/allDepartment",function(data,err){
+                var result=JSON.parse(data);
+                for(let i = 0; i < result.departmentList.length; i++){
+                    let option = $("<option class='departmentOption' value="+ result.departmentList[i].departmentId +">"+ result.departmentList[i].departName +"</option>");
+                    $("#s2").append(option);
+                }
+            });
+
+            /**
+             * 生成随机密码
+             */
+            function randomPwd(){
+                //定义随机值
+                var randomValues = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9'];
+                //随机数
+                var pwd = '';
+                //遍历随机值9次生成9位随机密码
+                for(var i = 0 ; i < 9 ; i ++ ){
+                    pwd += ''+randomValues[Math.floor(Math.random() * randomValues.length)];
+                }
+                //返回随机值
+                return pwd;
+            }
+
+            /**
+             * 随机密码生成
+             */
+            $("#randomCipher").on("click",function () {
+                //生成随机密码
+                var pwd=randomPwd();
+                //显示随机密码
+                $("#randomCipherTxt").val(pwd);
+            });
+
+            /**
+             * 用户组下拉框处理
+             */
+            $("#s1").on("change",function () {
+                //获取被选择中的用户组信息
+                var group=$(this).find("option:checked").text();
+                if(group!="搜索"){
+                    $(".defaultGroup").remove();
+                }
+            });
+
+            /**
+             * 机构下拉框处理
+             */
+            $("#s2").on("change",function () {
+                //获取被选择中的用户组信息
+                var group=$(this).find("option:checked").text();
+                if(group!="搜索"){
+                    $(".defaultDepartment").remove();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="sys_contnt">
+    <div class="sys_content_left">
+        <ul>
+            <li><a href="/usermanager" id="groupmanager" target="_self">用户管理</a></li>
+            <li class="sys_content_left_l1"><a href="/adduser" id="useradd">用户添加</a></li>
+        </ul>
+    </div>
+    <div class="sys_content_right" >
+        <div class="user_add">
+            <h1>添加用户</h1>
+            <div class="con">
+                <form action="/insertuser" method="post">
+                    <table cellpadding="0" border="0" cellspacing="0" class="d">
+                        <tr>
+                            <td width="20%" class="td_1">用户名：</td>
+                            <td width="80%"><input type="text" name="username" class="text"/></td>
+                        </tr>
+                        <tr>
+                            <td width="20%" class="td_1">工<img src="images/word.png" alt=""/>号：</td>
+                            <td width="80%"><input type="text" name="usercode" class="text"/></td>
+                        </tr>
+                        <tr>
+                            <td class="td_1">所属部门：</td>
+                            <td>
+                                <select id="s1" name="group" class="select">
+                                    <option class='groupOption defaultGroup'>搜索</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_1">所属机构：</td>
+                            <td>
+                                <select id="s2" name="department" class="select">
+                                    <option class="departmentOption defaultDepartment">搜索</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_1">密<img src="images/word.png" alt=""/>码：</td>
+                            <td><input type="password" id="randomCipherTxt" name="pwd" class="text"/>
+                                <input name="button" type="button" class="passbut" id="randomCipher" value="随机密码" /></td>
+                        </tr>
+                        <tr class="tr_5">
+                            <td class="td_1"><span class="td_t">备<img src="images/word.png" alt=""/>注：</span></td>
+                            <td class="texta"><textarea rows="8" cols="34" name="description"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="td_btn"><input type="submit" class="btn_sub" value="提 交"/></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="stylesheets/user.css" />
+<link rel="stylesheet" type="text/css" href="stylesheets/index.css" />
+<script src="/javascripts/jquery-3.3.1.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    $(function () {
+        /***
+         *  部门权限全选点击处理
+         */
+        $("#allgroup").on("click",function () {
+           if($(this).is(":checked")){
+               $(".list input").attr("checked",true);
+           }else {
+               $(".list input").attr("checked",false);
+           }
+       });
+
+        /**
+         *  部门信息提交的点击处理
+         */
+        $("#commitgroupinfor").on("click",function () {
+            //获取用户输入的姓名
+            var groupName=$("#groupname").val();
+            //创建用户权限数组
+            var groupPower=new Array();
+            //获取所有被选中的权限并进行遍历
+            $(".list ul input:checked").each(function () {
+                //将当前被选中的权限的title属性存入用户权限组
+                groupPower.push($(this).attr("value"));
+            });
+
+            //将用户名和用户权限的多选结果post提交至服务器
+            axios.post('/addgroup',{groupname:groupName,grouppower:groupPower.join(",")})
+            //处理服务器的响应结果
+            .then(res=>{
+               let msg=JSON.parse(res.data);
+               alert("恭喜你 "+msg.result);
+               //跳转到部门管理页
+               window.location.href="/grouplist";
+            }).catch(err=>{
+                let msg=JSON.parse(err.data);
+                alert(msg.result);
+            });
+
+        });
+    });
+</script>
+<title>用户组添加</title>
+</head>
+<body>
+    <div class="sys_contnt">
+        <div class="sys_content_left">
+            <ul>
+                <li><a href="/grouplist" id="groupmanager">部门管理</a></li>
+                <li class="sys_content_left_l1"><a id="useradd" href="/addgroup">部门添加</a></li>
+            </ul>
+        </div>
+        <div class="sys_content_right" >
+            <h1>部门添加</h1>
+                <div class="con">
+                    <span class="title">部门名称：</span>
+                    <input class="text" id="groupname" type="text" />
+                    <div class="user_content">
+                        <span class="title">组权限：</span>
+                        <div class="rep_box">
+                            <span>
+                                <input id="allgroup" type="checkbox" value="" name="allgroup" title="100"/>全选</span>
+                            <div class="rep_box_bottom">
+                                <div class="list">
+                                    <h3>文章管理</h3>
+                                    <ul>
+                                        <li>
+                                            <input type="checkbox"  value="添加文章"/>添加文章</li>
+                                        <li>
+                                            <input type="checkbox" value="删除文章"/>删除文章</li>
+                                        <li>
+                                            <input type="checkbox" value="修改文章"/>修改文章</li>
+
+                                        </ul>
+                                </div>
+                                <div class="list">
+                                    <h3>用户管理</h3>
+                                    <ul>
+                                        <li>
+                                            <input type="checkbox" value="添加用户"/>添加用户</li>
+                                        <li>
+                                            <input type="checkbox" value="删除用户"/>删除用户</li>
+                                        <li>
+                                            <input type="checkbox" value="修改用户"/>修改用户</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn_sub btn_sub_center" value="提 交"  id="commitgroupinfor"/>
+                </div>
+        </div>
+    </div>
+</body>
+
+</html>

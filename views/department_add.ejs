@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="stylesheets/index.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/user.css" />
+    <title>Document</title>
+</head>
+<body>
+<div class="sys_contnt">
+    <div class="sys_content_left">
+        <ul>
+            <li><a href="/departList" id="departmanager" target="_self">机构管理</a></li>
+            <li class="sys_content_left_l1"><a href="/addepart" id="useradd">机构添加</a></li>
+        </ul>
+    </div>
+    <div class="sys_content_right" >
+        <div class="user_add">
+            <h1>添加机构</h1>
+            <div class="con">
+                <form action="/addepart" method="post">
+                    <table cellpadding="0" border="0" cellspacing="0" class="d">
+                        <tr>
+                            <td width="20%" class="td_1">机构名称：</td>
+                            <td width="80%"><input type="text" name="departname" class="text"/></td>
+                        </tr>
+                        <tr>
+                            <td width="20%" class="td_1">机构编号：</td>
+                            <td width="80%"><input type="text" name="departcode" class="text"/></td>
+                        </tr>
+                        <tr class="tr_5">
+                            <td class="td_1"><span class="td_t">备&nbsp;&nbsp;注：</span></td>
+                            <td class="texta"><textarea rows="8" cols="34" name="description"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="td_btn"><input type="submit" class="btn_sub" value="提 交"/></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

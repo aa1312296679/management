@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="stylesheets/login.css" />
+    <script src="javascripts/jquery-3.3.1.min.js"></script>
+    <script>
+
+        var userName=false;
+        var pwd=false;
+        var check=false;
+
+        $(function () {
+            $("#loginbtn img").on("click",function () {
+                $(this).attr("src",'/getCaptcha?d='+Math.random());
+            })
+
+            $("#username").on("blur",function () {
+               if($(this).val()!=""){
+                   userName=true;
+               }else {
+                   userName=false;
+               }
+            });
+
+            $("#password").on("blur",function () {
+                if($(this).val()!=""){
+                    pwd=true;
+                }else {
+                    pwd=false;
+                }
+            });
+
+            $("#textfield").on("blur",function(){
+                //获取用户输入的验证码
+                var code=$(this).val().toLowerCase();
+                $.ajax({
+                    type:"post",
+                    url:"/checkCode",
+                    data:{code:code},
+                    dataType:"json",
+                    success:function (data) {
+                        var dataObj=JSON.parse(data);
+                        check=dataObj.codeResult;
+                        if(dataObj.codeResult){
+                            alert("验证码正确");
+                        }else {
+                            alert("验证码错误");
+                        }
+                    },
+                    error:function (e) {
+                        console.log(e);
+                    }
+                });
+            });
+
+            $("#loginform").on("submit",function () {
+                if (userName && pwd && check){
+                    return true;
+                }else {
+                    return false;
+                }
+            });
+        });
+    </script>
+    <title><%=title%></title>
+</head>
+<body>
+    <div id="all">
+        <div class="login_top">
+            <div class="login_return">
+                <ul>
+                    <li><a href="#">返回主页</a><a href="#"><img src="images/return.png" /></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="login_main">
+            <div class="login_main_top">
+                <img src="images/newlogo.jpg" style="margin-top:50px;"/>
+            </div>
+            <div class="login_main_center">
+                <div class="form_login">
+                    <form action="/login"  id="loginform" method="post" >
+                        <table class="table_login">
+                            <tr>
+                                <td class="login_td_one" >用户名：</td>
+                                <td class="login_td_two" colspan="2" ><input name="username" type="text" id="username"/></td>
+                                <td class="login_td_three" width="130px" rowspan="3"><input type="submit" class="btn_login" value=""  /></td>
+                            </tr>
+                            <tr>
+                                <td class="login_td_one">密<img src="images/login_transparent.png" />码：</td>
+                                <td class="login_td_two" colspan="2" ><input name="password" type="password" id="password"/></td>
+                            </tr>
+                            <tr>
+                                <td class="login_td_one">验证码：</td>
+                                <td class="login_td_two_last"><input name="textfield" type="text" id="textfield"/></td>
+                                <td class="login_captcha"><a href="#" id="loginbtn" ><img src="/getCaptcha" alt="captcha"/></a></td>
+                            </tr>
+
+                        </table>
+                    </form>
+                </div>
+            </div>
+            <div class="login_space">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
